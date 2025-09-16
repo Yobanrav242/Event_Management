@@ -1,0 +1,20 @@
+.register-container {
+  max-width: 700px;
+  margin: 2rem auto;
+}
+
+.register-container h2 {
+  color: #007bff;
+}
+
+.card {
+  border-radius: 12px;
+}
+
+input, select {
+  border-radius: 6px !important;
+}
+
+button {
+  border-radius: 6px !important;
+}

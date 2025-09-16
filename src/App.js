@@ -1,24 +1,23 @@
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import LandingPage from "./components/pages/LandingPage";
+import RegisterPage from "./components/pages/RegisterPage";
+import TechnicalEvents from "./components/pages/TechnicalEvents";
+import NonTechnicalEvents from "./components/pages/NonTechnicalEvents";
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router>
+      <main className="container mt-4">
+        <Routes>
+          <Route path="/" element={<LandingPage />} />
+          <Route path="/login" element={<h1>Login Page</h1>} />
+          <Route path="/technical" element={<TechnicalEvents />} />
+          <Route path="/non-technical" element={<NonTechnicalEvents />} />
+          <Route path="/register" element={<RegisterPage />} />
+        </Routes>
+      </main>
+    </Router>
   );
 }
 

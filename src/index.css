@@ -11,3 +11,26 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+:root {
+  --primary-color: #0d6efd;   /* Bootstrap blue override */
+  --secondary-color: #6c757d;
+  --bg-color: #f8f9fa;
+  --text-color: #212529;
+}
+
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background-color: var(--bg-color);
+  color: var(--text-color);
+}
+
+.navbar-custom {
+  background-color: var(--primary-color);
+}
+
+.navbar-custom .nav-link,
+.navbar-custom .navbar-brand,
+.navbar-custom .btn {
+  color: #fff !important;
+}

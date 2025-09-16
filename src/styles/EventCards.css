@@ -1,0 +1,83 @@
+:root {
+  --primary-color: #4a90e2;
+  --secondary-color: #f5f5f5;
+  --card-bg: #ffffff;
+  --card-shadow: rgba(0, 0, 0, 0.1);
+  --btn-bg: #4a90e2;
+  --btn-hover: #357ab8;
+  --text-color: #333;
+  --accent-color: #ff6b6b;
+}
+
+.event-card {
+  background: var(--card-bg);
+  border-radius: 12px;
+  box-shadow: 0 4px 12px var(--card-shadow);
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.event-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 20px var(--card-shadow);
+}
+
+.card-title {
+  font-weight: bold;
+  color: var(--primary-color);
+}
+
+.card-subtitle {
+  font-size: 0.9rem;
+  color: var(--text-color);
+}
+
+.card-text {
+  flex-grow: 1;
+  color: var(--text-color);
+  margin-bottom: 1rem;
+}
+
+.btn {
+  font-weight: bold;
+  transition: background 0.3s, transform 0.2s;
+}
+
+.btn:hover {
+  transform: scale(1.05);
+}
+
+.btn-outline-primary {
+  color: var(--primary-color);
+  border-color: var(--primary-color);
+}
+
+.btn-outline-primary:hover {
+  background-color: var(--primary-color);
+  color: #fff;
+  border-color: var(--primary-color);
+}
+
+.btn-primary {
+  background-color: var(--btn-bg);
+  border-color: var(--btn-bg);
+  color: #fff;
+}
+
+.btn-primary:hover {
+  background-color: var(--btn-hover);
+  border-color: var(--btn-hover);
+  color: #fff;
+}
+
+/* Responsive tweaks for card text */
+@media (max-width: 768px) {
+  .card-text {
+    font-size: 0.85rem;
+  }
+}
+
+@media (max-width: 576px) {
+  .card-text {
+    font-size: 0.8rem;
+  }
+}
