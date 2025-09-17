@@ -15,7 +15,7 @@
 
 .events-container {
   /* background-color: var(--secondary-color); */
-  min-height: 100vh;
+  min-height: 50vh;
 }
 
 .nav-tabs .nav-link {

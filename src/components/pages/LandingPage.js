@@ -9,9 +9,13 @@ function LandingPage() {
         {/* Headerr */}
         <Header />
         {/* Dashboard */}
-        <Dashboard />
+        <section id="about">
+          <Dashboard />
+        </section>
         {/* Events */}
-        <Events />
+        <section id='events'>
+           <Events />
+        </section>
     </div>
   )
 }

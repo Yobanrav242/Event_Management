@@ -52,27 +52,29 @@ function Dashboard() {
   }
 
   return (
-    <div className="dashboard-container container py-4 d-flex flex-column align-items-center">
-      <div className="slider-wrapper d-flex justify-content-center align-items-center">
+    <div className="dashboard-container container-fluid  d-flex flex-column align-items-center">
+      <div className="slider-wrapper">
         {/* Prev Button */}
-        <button className="slider-btn btn btn-primary me-2" onClick={goPrev}>
+        <button className="slider-btn btn btn-primary me-2 d-none d-md-block" onClick={goPrev}>
           &#10094;
         </button>
 
-        {/* Image */}
-        <img
-          src={images[currentIndex]}
-          alt={`Slide ${currentIndex + 1}`}
-          className="slider-image img-fluid rounded shadow"
-        />
+        {/* Image inside fixed ratio box */}
+        <div className="slider-box ratio ratio-16x9">
+          <img
+            src={images[currentIndex]}
+            alt={`Slide ${currentIndex + 1}`}
+            className="slider-image"
+          />
+        </div>
 
         {/* Next Button */}
-        <button className="slider-btn btn btn-primary ms-2" onClick={goNext}>
+        <button className="slider-btn btn btn-primary ms-2 d-none d-md-block" onClick={goNext}>
           &#10095;
         </button>
       </div>
 
-      <p className="slide-counter mt-3 text-center">
+      <p className="slide-counter mt-3 d-none d-md-block text-center">
         {currentIndex + 1} of {images.length}
       </p>
     </div>
