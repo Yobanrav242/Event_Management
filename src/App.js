@@ -8,7 +8,7 @@ import NonTechnicalEvents from "./components/pages/NonTechnicalEvents";
 function App() {
   return (
     <Router>
-      <main className="container mt-4">
+      <main >
         <Routes>
           <Route path="/" element={<LandingPage />} />
           <Route path="/login" element={<h1>Login Page</h1>} />
