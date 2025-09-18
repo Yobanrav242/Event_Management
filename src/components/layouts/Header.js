@@ -1,5 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import "../../styles/Header.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Logo from '../../assets/clg_logo.png'
 

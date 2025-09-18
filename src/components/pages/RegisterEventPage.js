@@ -1,23 +1,36 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { collection, addDoc, serverTimestamp } from "firebase/firestore";
-import { createUserWithEmailAndPassword } from "firebase/auth";
+import { createUserWithEmailAndPassword, onAuthStateChanged } from "firebase/auth";
 import { db, auth } from "../../firebase";
-import "../../styles/RegisterPage.css";
+import "../../styles/RegisterPage.css"; // you can rename this to RegisterEventPage.css if needed
 
-function RegisterPage() {
+function RegisterEventPage() {
   const location = useLocation();
   const navigate = useNavigate();
-
   const prefilledEvent = location.state?.eventName || "";
+
+
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [eventName, setEventName] = useState(prefilledEvent);
   const [teamSize, setTeamSize] = useState(1);
-  const [members, setMembers] = useState([
-    { name: "", email: "", phone: "" },
-  ]);
+  const [members, setMembers] = useState([{ name: "", email: "", phone: "" }]);
+  const [userLoggedIn, setUserLoggedIn] = useState(null);
+
+  // Detect logged in user
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      if (user) {
+        setUserLoggedIn(user);
+        setEmail(user.email); // autofill
+      } else {
+        setUserLoggedIn(null);
+      }
+    });
+    return () => unsubscribe();
+  }, []);
 
   // Handle team size change
   const handleTeamSizeChange = (size) => {
@@ -43,27 +56,34 @@ function RegisterPage() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // basic validation
-    if (!email || !password || !eventName) {
-      alert("Please fill in all required fields.");
-      return;
-    }
-    if (password.length < 6) {
-      alert("Password must be at least 6 characters long.");
+    if (!eventName) {
+      alert("Please select an event.");
       return;
     }
 
     try {
-      // Create user with Firebase Auth
-      const userCredential = await createUserWithEmailAndPassword(
-        auth,
-        email,
-        password
-      );
+      let userId;
+
+      if (!userLoggedIn) {
+        // If not logged in, create user
+        if (!email || !password) {
+          alert("Please provide email & password.");
+          return;
+        }
+        const userCredential = await createUserWithEmailAndPassword(
+          auth,
+          email,
+          password
+        );
+        userId = userCredential.user.uid;
+      } else {
+        // Already logged in
+        userId = userLoggedIn.uid;
+      }
 
       // Save registration details in Firestore
       await addDoc(collection(db, "registered_students"), {
-        userId: userCredential.user.uid,
+        userId,
         email,
         eventName,
         teamSize,
@@ -71,8 +91,8 @@ function RegisterPage() {
         createdAt: serverTimestamp(),
       });
 
-      alert("Registration successful!");
-      navigate("/"); // go back to home after registration
+      alert("Event registration successful!");
+      navigate("/"); // redirect to homepage
     } catch (error) {
       console.error("Error saving registration:", error);
       alert(error.message);
@@ -85,28 +105,31 @@ function RegisterPage() {
       <form className="register-form" onSubmit={handleSubmit}>
         {/* Email */}
         <div className="mb-3">
-          <label className="form-label">Email (for login)</label>
+          <label className="form-label">Email</label>
           <input
             type="email"
             className="form-control"
             value={email}
+            disabled={!!userLoggedIn} // disable if logged in
             onChange={(e) => setEmail(e.target.value)}
             required
           />
         </div>
 
-        {/* Password */}
-        <div className="mb-3">
-          <label className="form-label">Create Password</label>
-          <input
-            type="password"
-            className="form-control"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-          />
-          <div className="form-text">Minimum 6 characters required.</div>
-        </div>
+        {/* Password (only if new user) */}
+        {!userLoggedIn && (
+          <div className="mb-3">
+            <label className="form-label">Create Password</label>
+            <input
+              type="password"
+              className="form-control"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+            />
+            <div className="form-text">Minimum 6 characters required.</div>
+          </div>
+        )}
 
         {/* Event Name */}
         <div className="mb-3">
@@ -138,42 +161,36 @@ function RegisterPage() {
         {members.map((member, index) => (
           <div key={index} className="card p-3 mb-3">
             <h6>Member {index + 1}</h6>
-            <div className="mb-2">
-              <input
-                type="text"
-                className="form-control"
-                placeholder="Name"
-                value={member.name}
-                onChange={(e) =>
-                  handleMemberChange(index, "name", e.target.value)
-                }
-                required
-              />
-            </div>
-            <div className="mb-2">
-              <input
-                type="email"
-                className="form-control"
-                placeholder="Email"
-                value={member.email}
-                onChange={(e) =>
-                  handleMemberChange(index, "email", e.target.value)
-                }
-                required
-              />
-            </div>
-            <div className="mb-2">
-              <input
-                type="tel"
-                className="form-control"
-                placeholder="Phone"
-                value={member.phone}
-                onChange={(e) =>
-                  handleMemberChange(index, "phone", e.target.value)
-                }
-                required
-              />
-            </div>
+            <input
+              type="text"
+              className="form-control mb-2"
+              placeholder="Name"
+              value={member.name}
+              onChange={(e) =>
+                handleMemberChange(index, "name", e.target.value)
+              }
+              required
+            />
+            <input
+              type="email"
+              className="form-control mb-2"
+              placeholder="Email"
+              value={member.email}
+              onChange={(e) =>
+                handleMemberChange(index, "email", e.target.value)
+              }
+              required
+            />
+            <input
+              type="tel"
+              className="form-control"
+              placeholder="Phone"
+              value={member.phone}
+              onChange={(e) =>
+                handleMemberChange(index, "phone", e.target.value)
+              }
+              required
+            />
           </div>
         ))}
 
@@ -185,4 +202,4 @@ function RegisterPage() {
   );
 }
 
-export default RegisterPage;
+export default RegisterEventPage;

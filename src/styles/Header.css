@@ -1,0 +1,13 @@
+.navbar-custom {
+  background-color: #003366; /* dark blue or any color */
+  color: white;
+}
+
+.navbar-custom .nav-link,
+.navbar-custom .navbar-brand {
+  color: white !important;
+}
+
+.navbar-custom .btn {
+  border-color: white;
+}
