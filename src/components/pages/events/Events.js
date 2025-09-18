@@ -39,7 +39,7 @@ function Events() {
     switch (type) {
       case "technical":
         return "bg-primary";
-      case "nonTechnical":
+      case "nontechnical":
         return "bg-warning text-dark";
       case "workshop":
         return "bg-success";

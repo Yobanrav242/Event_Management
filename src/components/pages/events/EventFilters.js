@@ -21,9 +21,9 @@ function EventFilters({ activeType, setActiveType }) {
       </button>
       <button
         className={`btn m-2 ${
-          activeType === "nonTechnical" ? "btn-primary" : "btn-outline-primary"
+          activeType === "nontechnical" ? "btn-primary" : "btn-outline-primary"
         }`}
-        onClick={() => setActiveType("nonTechnical")}
+        onClick={() => setActiveType("nontechnical")}
       >
         Non-Technical
       </button>
