@@ -4,14 +4,12 @@ import { collection, getDocs } from "firebase/firestore";
 import EventCard from "./EventCard";
 import EventModal from "./EventModal";
 import EventFilters from "./EventFilters";
-// import "../styles/Events.css";
 
 function Events() {
   const [events, setEvents] = useState([]);
   const [activeType, setActiveType] = useState("all");
   const [selectedEvent, setSelectedEvent] = useState(null);
 
-  // Fetch events from Firestore
   useEffect(() => {
     const fetchEvents = async () => {
       try {
@@ -28,13 +26,11 @@ function Events() {
     fetchEvents();
   }, []);
 
-  // Filter events by type
   const filteredEvents =
     activeType === "all"
       ? events
       : events.filter((event) => event.type === activeType);
 
-  // Badge color
   const getBadgeClass = (type) => {
     switch (type) {
       case "technical":
@@ -50,10 +46,8 @@ function Events() {
 
   return (
     <div className="container py-4">
-      {/* Filters */}
       <EventFilters activeType={activeType} setActiveType={setActiveType} />
 
-      {/* Event Cards */}
       <div className="row">
         {filteredEvents.map((event) => (
           <EventCard
@@ -64,14 +58,12 @@ function Events() {
           />
         ))}
 
-        {/* If no events */}
         {filteredEvents.length === 0 && (
           <p className="text-center text-muted">No events found.</p>
         )}
       </div>
 
-      {/* Modal */}
-      <EventModal selectedEvent={selectedEvent} />
+      <EventModal selectedEvent={selectedEvent} setSelectedEvent={setSelectedEvent} />
     </div>
   );
 }

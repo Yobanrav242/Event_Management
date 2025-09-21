@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate, Link } from "react-router-dom";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../../../firebase";
 
@@ -32,7 +32,11 @@ function LoginPage() {
   return (
     <div className="container py-5 text-center">
       <h2>Login</h2>
-      <form className="mx-auto" style={{ maxWidth: "400px" }} onSubmit={handleLogin}>
+      <form
+        className="mx-auto"
+        style={{ maxWidth: "400px" }}
+        onSubmit={handleLogin}
+      >
         <input
           type="email"
           className="form-control mb-3"
@@ -53,6 +57,17 @@ function LoginPage() {
           Login
         </button>
       </form>
+
+      {/* 🚀 Link to Registration Page */}
+      <p className="mt-3">
+        Don’t have an account?{" "}
+        <Link
+          to="/register"
+          state={{ redirectTo, eventName }} // keep event info for after registration
+        >
+          Create one here
+        </Link>
+      </p>
     </div>
   );
 }
